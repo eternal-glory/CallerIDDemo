@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Y0s-kG-H26"/>
+                        <viewControllerLayoutGuide type="bottom" id="CTt-d5-mdl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="输入号码" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV6-di-cdx">
+                                <rect key="frame" x="15" y="120" width="87" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="输入标识名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5BF-C2-Utv">
+                                <rect key="frame" x="15" y="175.5" width="87" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iTa-X3-F9q">
+                                <rect key="frame" x="112" y="116" width="248" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VVn-N5-Mbl">
+                                <rect key="frame" x="112" y="171" width="248" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aWg-GU-xhX">
+                                <rect key="frame" x="156" y="241" width="62" height="30"/>
+                                <state key="normal" title="加入缓存"/>
+                                <connections>
+                                    <action selector="addDataSource:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4lz-Cl-Y1x"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hNQ-FZ-emW">
+                                <rect key="frame" x="156" y="286" width="62" height="30"/>
+                                <state key="normal" title="更新入库"/>
+                                <connections>
+                                    <action selector="updateDataSource:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LbQ-io-FaP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BoT-NL-GXH">
+                                <rect key="frame" x="27" y="241" width="62" height="30"/>
+                                <state key="normal" title="查看权限"/>
+                                <connections>
+                                    <action selector="retrieve:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u72-1O-ZYf"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="5BF-C2-Utv" firstAttribute="width" secondItem="NV6-di-cdx" secondAttribute="width" id="56l-Nm-c0i"/>
+                            <constraint firstAttribute="trailing" secondItem="iTa-X3-F9q" secondAttribute="trailing" constant="15" id="7RF-Z2-4cX"/>
+                            <constraint firstItem="5BF-C2-Utv" firstAttribute="top" secondItem="iTa-X3-F9q" secondAttribute="bottom" constant="30" id="CJG-4f-B63"/>
+                            <constraint firstItem="5BF-C2-Utv" firstAttribute="leading" secondItem="NV6-di-cdx" secondAttribute="leading" id="FHR-DA-KA8"/>
+                            <constraint firstItem="VVn-N5-Mbl" firstAttribute="width" secondItem="iTa-X3-F9q" secondAttribute="width" id="JYK-E0-WPN"/>
+                            <constraint firstItem="BoT-NL-GXH" firstAttribute="centerX" secondItem="5BF-C2-Utv" secondAttribute="centerX" id="JuJ-WE-cCb"/>
+                            <constraint firstItem="iTa-X3-F9q" firstAttribute="centerY" secondItem="NV6-di-cdx" secondAttribute="centerY" id="Me3-NO-VZO"/>
+                            <constraint firstItem="hNQ-FZ-emW" firstAttribute="centerX" secondItem="aWg-GU-xhX" secondAttribute="centerX" id="SQf-JH-ggE"/>
+                            <constraint firstItem="VVn-N5-Mbl" firstAttribute="trailing" secondItem="iTa-X3-F9q" secondAttribute="trailing" id="U9q-HH-Vhd"/>
+                            <constraint firstItem="aWg-GU-xhX" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ych-ii-dJ8"/>
+                            <constraint firstItem="BoT-NL-GXH" firstAttribute="centerY" secondItem="aWg-GU-xhX" secondAttribute="centerY" id="a1Z-24-BsQ"/>
+                            <constraint firstItem="hNQ-FZ-emW" firstAttribute="top" secondItem="aWg-GU-xhX" secondAttribute="bottom" constant="15" id="aXS-Qs-XnX"/>
+                            <constraint firstItem="iTa-X3-F9q" firstAttribute="leading" secondItem="NV6-di-cdx" secondAttribute="trailing" constant="10" id="bnX-rg-IfT"/>
+                            <constraint firstItem="aWg-GU-xhX" firstAttribute="top" secondItem="VVn-N5-Mbl" secondAttribute="bottom" constant="40" id="boL-iA-mOE"/>
+                            <constraint firstItem="VVn-N5-Mbl" firstAttribute="centerY" secondItem="5BF-C2-Utv" secondAttribute="centerY" id="hJx-pd-m9C"/>
+                            <constraint firstItem="NV6-di-cdx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="15" id="nxj-Bd-AbP"/>
+                            <constraint firstItem="NV6-di-cdx" firstAttribute="top" secondItem="Y0s-kG-H26" secondAttribute="bottom" constant="100" id="w9Q-5t-JQv"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="nameTF" destination="VVn-N5-Mbl" id="HrK-Co-8ox"/>
+                        <outlet property="numberTF" destination="iTa-X3-F9q" id="yZr-n7-hFH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="33.5" y="31.5"/>
+        </scene>
+    </scenes>
+</document>
