@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "Macro.h"
 #import "JRCallKitFileManager.h"
 
 @interface AppDelegate ()
@@ -19,8 +20,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     if (@available(iOS 10.0, *)) {
-        
-        [[JRCallKitFileManager sharedManager] extensionIdentifier:@"com.literature.CallKitDemo.JRCallKitExtension" ApplicationGroupIdentifier:@"group.com.literature.Demo.Extension"];
+        // 初始化Extersion ID和APP Group ID
+        [[JRCallKitFileManager sharedManager] extensionIdentifier:ExtensionIdentifier ApplicationGroupIdentifier:AppGroupIdentifier];
     }
 
     return YES;

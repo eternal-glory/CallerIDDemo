@@ -15,7 +15,7 @@ API_AVAILABLE(ios(10.0))
 + (instancetype)sharedManager;
 
 /**
- 根据Extersion ID和APP Group ID来初始化CMPCallDirectoryManager
+ 初始化 Extersion ID和APP Group ID
 
  @param externsionIdentifier extersion ID
  @param groupIdentifier APP Group ID

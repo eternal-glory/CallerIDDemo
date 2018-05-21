@@ -60,6 +60,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A3057ADB20B2728800578654 /* Macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macro.h; sourceTree = "<group>"; };
 		A3C036EB20AAE6DB00D43FDE /* CallKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CallKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3C036EE20AAE6DB00D43FDE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A3C036EF20AAE6DB00D43FDE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -196,6 +197,7 @@
 			children = (
 				A3C0374420ABDCCB00D43FDE /* JRCallKitFileManager.h */,
 				A3C0374520ABDCCB00D43FDE /* JRCallKitFileManager.m */,
+				A3057ADB20B2728800578654 /* Macro.h */,
 			);
 			path = CallKitFileManager;
 			sourceTree = "<group>";

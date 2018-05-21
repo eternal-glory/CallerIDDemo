@@ -7,6 +7,7 @@
 //
 
 #import "CallDirectoryHandler.h"
+#import "Macro.h"
 
 @interface CallDirectoryHandler () <CXCallDirectoryExtensionContextDelegate>
 @end
@@ -26,9 +27,7 @@
 }
 
 - (BOOL)addIdentificationPhoneNumbersToContext:(CXCallDirectoryExtensionContext *)context {
-    
-    NSString * groupId = @"group.com.rce.callkit";
-    NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:groupId];
+    NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:AppGroupIdentifier];
     //TODO: 必须填写文件名
     containerURL = [containerURL URLByAppendingPathComponent:@"RCECallDirectoryData"];
     FILE *file = fopen([containerURL.path UTF8String], "r");
