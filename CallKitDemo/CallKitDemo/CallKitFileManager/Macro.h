@@ -14,4 +14,6 @@
 // app group id
 #define AppGroupIdentifier @"group.com.literature.Demo.Extension"
 
+#define FileName @"CallDirectoryData"
+
 #endif /* Macro_h */

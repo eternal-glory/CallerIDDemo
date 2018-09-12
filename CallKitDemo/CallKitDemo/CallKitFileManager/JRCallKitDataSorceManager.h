@@ -1,5 +1,5 @@
 //
-//  JRCallKitFileManager.h
+//  JRCallKitDataSorceManager.h
 //  CallKitDemo
 //
 //  Created by Johnson Rey on 2018/5/16.
@@ -8,9 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <CallKit/CallKit.h>
-
 API_AVAILABLE(ios(10.0))
-@interface JRCallKitFileManager : NSObject
+@interface JRCallKitDataSorceManager : NSObject
 
 + (instancetype)sharedManager;
 
@@ -20,7 +19,7 @@ API_AVAILABLE(ios(10.0))
  @param externsionIdentifier extersion ID
  @param groupIdentifier APP Group ID
  */
-- (void)extensionIdentifier:(NSString *)externsionIdentifier ApplicationGroupIdentifier:(NSString *)groupIdentifier;
+- (void)extensionIdentifier:(NSString *)externsionIdentifier ApplicationGroupIdentifier:(NSString *)groupIdentifier dataSroceFileName:(NSString *)dataSroceFileName;
 
 /**
  获取Call Direcory是否可用
@@ -60,9 +59,9 @@ API_AVAILABLE(ios(10.0))
 /**
  先调用addPhoneNumber:label:把需要写入的记录添加
  调用该函数会把之前的记录写入系统
- error 见 CXErrorCodeCallDirectoryManagerError
- return NO 写文件失败
+
+ @param completion 返回错误或成功后路径
  */
-- (BOOL)reload:(nullable void (^)(NSError * _Nullable error))completion;
+- (void)reload:(nullable void (^)(NSError * _Nullable error, NSString * filePath))completion;
 
 @end

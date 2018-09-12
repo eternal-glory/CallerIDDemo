@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "JRCallKitFileManager.h"
+#import "JRCallKitDataSorceManager.h"
 #import "Model.h"
 
 @interface ViewController ()
@@ -44,11 +44,11 @@
         for (Model * model in self.dataSource) {
             // 循环遍历数据进行号码添加
             // 目前只对中国大陆号码做正则,如果有发烧友对国际编写有思想课修改内部私有接口正则修改
-            [[JRCallKitFileManager sharedManager] addPhoneNumber:model.number name:model.name];
+            [[JRCallKitDataSorceManager sharedManager] addPhoneNumber:model.number name:model.name];
         }
         
         // 写入到库中, 接口返回值 yes 成功 no失败.回调block做验证,如果error有值 那么呼叫功能可能不存在
-        BOOL reluat = [[JRCallKitFileManager sharedManager] reload:^(NSError *error) {
+        [[JRCallKitDataSorceManager sharedManager] reload:^(NSError * _Nullable error, NSString *filePath) {
             
             NSString * message = nil;
             if (error) {
@@ -61,10 +61,6 @@
             [alerVC addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
             [self presentViewController:alerVC animated:YES completion:nil];
         }];
-        
-        NSString * string = reluat ? @"保存数据成功" : @"保存数据失败";
-        
-        NSLog(@"%@",string);
     }
 }
 
@@ -73,7 +69,7 @@
     if (@available(iOS 10.0, *)) {
         __weak typeof(self) weakself = self;
         // 检测group id 及权限
-        [[JRCallKitFileManager sharedManager] getEnableStatus:^(CXCallDirectoryEnabledStatus enabledStatus, NSError *error) {
+        [[JRCallKitDataSorceManager sharedManager] getEnableStatus:^(CXCallDirectoryEnabledStatus enabledStatus, NSError *error) {
             if (error) {
                 [weakself alertWithMessage:@"来电提示功能 获取权限发生错误 请联系开发人员" tag:0];
                 return;

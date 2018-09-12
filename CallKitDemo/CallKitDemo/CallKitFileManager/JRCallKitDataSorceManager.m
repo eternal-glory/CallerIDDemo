@@ -1,14 +1,16 @@
 //
-//  JRCallKitFileManager.m
+//  JRCallKitDataSorceManager.m
 //  CallKitDemo
 //
 //  Created by Johnson Rey on 2018/5/16.
 //  Copyright © 2018年 Zimeng Rey. All rights reserved.
 //
 
-#import "JRCallKitFileManager.h"
+#import "JRCallKitDataSorceManager.h"
 
-@interface JRCallKitFileManager ()
+@interface JRCallKitDataSorceManager ()
+
+@property (nonatomic, strong) NSString * dataSroceFileName;
 /** externsion的Bundle ID **/
 @property (nonatomic, strong) NSString *externsionIdentifier;
 /** APP Groups的ID **/
@@ -25,11 +27,10 @@
 
 @end
 
-@implementation JRCallKitFileManager
+@implementation JRCallKitDataSorceManager
 
 + (instancetype)sharedManager {
-    static JRCallKitFileManager * _manager = nil;
-    
+    static JRCallKitDataSorceManager * _manager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _manager = [[self alloc] init];
@@ -37,9 +38,10 @@
     return _manager;
 }
 
-- (void)extensionIdentifier:(NSString *)externsionIdentifier ApplicationGroupIdentifier:(NSString *)groupIdentifier {
+- (void)extensionIdentifier:(NSString *)externsionIdentifier ApplicationGroupIdentifier:(NSString *)groupIdentifier dataSroceFileName:(NSString *)dataSroceFileName {
     self.externsionIdentifier = externsionIdentifier;
     self.groupIdentifier = groupIdentifier;
+    self.dataSroceFileName = dataSroceFileName;
 }
 
 - (void)getEnableStatus:(void (^)(CXCallDirectoryEnabledStatus enabledStatus, NSError * error))completion {
@@ -81,30 +83,29 @@
     return YES;
 }
 
-- (BOOL)reload:(void (^)(NSError * _Nullable error))completion {
+- (void)reload:(void (^)(NSError * _Nullable error, NSString * filePath))completion {
     if (self.dataList.count == 0) {
-        return NO;
+        completion([[NSError alloc] initWithDomain:@"The data source is empty, please contact the service." code:-1 userInfo:nil], nil);
     }
     
-    if (![self writeDataToAppGroupFile]) {
-        return NO;
-    }
+    NSString * filePath = [self writeDataToAppGroupFile:^(NSError * _Nullable error) {
+        if (error) {
+            completion(error, nil);
+        }
+    }];
     
     CXCallDirectoryManager *manager = [CXCallDirectoryManager sharedInstance];
     [manager reloadExtensionWithIdentifier:self.externsionIdentifier completionHandler:^(NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (completion) {
                 if (error.code != 0) {
-                    completion(error);
+                    completion(error, nil);
                 } else {
-                    completion(nil);
+                    completion(nil, filePath);
                 }
             }
         });
-        
     }];
-    
-    return YES;
 }
 
 #pragma mark -
@@ -179,27 +180,40 @@
 /**
  将数据写入APP Group指定文件中
  */
-- (BOOL)writeDataToAppGroupFile {
+- (NSString *)writeDataToAppGroupFile:(void (^)(NSError * _Nullable error))completion {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:self.groupIdentifier];
-    containerURL = [containerURL URLByAppendingPathComponent:@"CallDirectoryData"];
-    NSString * filePath = containerURL.path;
-    
-    if (!filePath || ![filePath isKindOfClass:[NSString class]]) {
-        return NO;
+    if (containerURL == nil) {
+        completion([[NSError alloc] initWithDomain:@"Container link is empty, Please check if the project configuration file is consistent with the APP group id." code:-1000 userInfo:nil]);
+        return nil;
     }
     
-    if([fileManager fileExistsAtPath:filePath]) {
+    containerURL = [containerURL URLByAppendingPathComponent:self.dataSroceFileName];
+    NSString * filePath = containerURL.path;
+    if (!filePath || ![filePath isKindOfClass:[NSString class]]) {
+        completion([[NSError alloc] initWithDomain:@"File path initialization failed" code:-1001 userInfo:nil]);
+        return nil;
+    }
+    
+    if ([fileManager fileExistsAtPath:filePath]) {
         [fileManager removeItemAtPath:filePath error:nil];
     }
     
     if (![fileManager createFileAtPath:filePath contents:nil attributes:nil]) {
-        return NO;
+        completion([[NSError alloc] initWithDomain:@"Failed to create file" code:-1001 userInfo:nil]);
+        return nil;
     }
-    NSLog(@"CallDirectoryDataPath - %@",filePath);
+    
     BOOL result = [[self dataToString] writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     [self clearPhoneNumber];
-    return result;
+    if (!result) {
+        completion([[NSError alloc] initWithDomain:@"Data entry file failed" code:-1002 userInfo:nil]);
+        return nil;
+    } else {
+        completion(nil);
+    }
+    
+    return filePath;
 }
 
 #pragma mark -Getter

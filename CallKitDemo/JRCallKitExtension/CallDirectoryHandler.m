@@ -29,7 +29,7 @@
 - (BOOL)addIdentificationPhoneNumbersToContext:(CXCallDirectoryExtensionContext *)context {
     NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:AppGroupIdentifier];
     //TODO: 必须填写文件名
-    containerURL = [containerURL URLByAppendingPathComponent:@"RCECallDirectoryData"];
+    containerURL = [containerURL URLByAppendingPathComponent:FileName];
     FILE *file = fopen([containerURL.path UTF8String], "r");
     if (!file) {
         return YES;

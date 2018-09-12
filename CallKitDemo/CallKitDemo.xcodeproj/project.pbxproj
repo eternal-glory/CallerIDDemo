@@ -17,7 +17,7 @@
 		A3C0371320AAE6DD00D43FDE /* CallKitDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C0371220AAE6DD00D43FDE /* CallKitDemoUITests.m */; };
 		A3C0373920AAE81200D43FDE /* CallDirectoryHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C0373820AAE81200D43FDE /* CallDirectoryHandler.m */; };
 		A3C0373D20AAE81200D43FDE /* JRCallKitExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A3C0373520AAE81200D43FDE /* JRCallKitExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		A3C0374620ABDCCB00D43FDE /* JRCallKitFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C0374520ABDCCB00D43FDE /* JRCallKitFileManager.m */; };
+		A3C0374620ABDCCB00D43FDE /* JRCallKitDataSorceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C0374520ABDCCB00D43FDE /* JRCallKitDataSorceManager.m */; };
 		A3C0374920AD1E8500D43FDE /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C0374820AD1E8500D43FDE /* Model.m */; };
 /* End PBXBuildFile section */
 
@@ -83,8 +83,8 @@
 		A3C0373A20AAE81200D43FDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A3C0374120AAE84000D43FDE /* JRCallKitExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JRCallKitExtension.entitlements; sourceTree = "<group>"; };
 		A3C0374220AAE84D00D43FDE /* CallKitDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CallKitDemo.entitlements; sourceTree = "<group>"; };
-		A3C0374420ABDCCB00D43FDE /* JRCallKitFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRCallKitFileManager.h; sourceTree = "<group>"; };
-		A3C0374520ABDCCB00D43FDE /* JRCallKitFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRCallKitFileManager.m; sourceTree = "<group>"; };
+		A3C0374420ABDCCB00D43FDE /* JRCallKitDataSorceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRCallKitDataSorceManager.h; sourceTree = "<group>"; };
+		A3C0374520ABDCCB00D43FDE /* JRCallKitDataSorceManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRCallKitDataSorceManager.m; sourceTree = "<group>"; };
 		A3C0374720AD1E8500D43FDE /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		A3C0374820AD1E8500D43FDE /* Model.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -195,8 +195,8 @@
 		A3C0374320ABDCAF00D43FDE /* CallKitFileManager */ = {
 			isa = PBXGroup;
 			children = (
-				A3C0374420ABDCCB00D43FDE /* JRCallKitFileManager.h */,
-				A3C0374520ABDCCB00D43FDE /* JRCallKitFileManager.m */,
+				A3C0374420ABDCCB00D43FDE /* JRCallKitDataSorceManager.h */,
+				A3C0374520ABDCCB00D43FDE /* JRCallKitDataSorceManager.m */,
 				A3057ADB20B2728800578654 /* Macro.h */,
 			);
 			path = CallKitFileManager;
@@ -372,7 +372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A3C0374620ABDCCB00D43FDE /* JRCallKitFileManager.m in Sources */,
+				A3C0374620ABDCCB00D43FDE /* JRCallKitDataSorceManager.m in Sources */,
 				A3C036F320AAE6DB00D43FDE /* ViewController.m in Sources */,
 				A3C036FE20AAE6DD00D43FDE /* main.m in Sources */,
 				A3C036F020AAE6DB00D43FDE /* AppDelegate.m in Sources */,

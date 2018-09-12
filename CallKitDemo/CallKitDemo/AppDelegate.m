@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "Macro.h"
-#import "JRCallKitFileManager.h"
+#import "JRCallKitDataSorceManager.h"
 
 @interface AppDelegate ()
 
@@ -21,7 +21,7 @@
     
     if (@available(iOS 10.0, *)) {
         // 初始化Extersion ID和APP Group ID
-        [[JRCallKitFileManager sharedManager] extensionIdentifier:ExtensionIdentifier ApplicationGroupIdentifier:AppGroupIdentifier];
+        [[JRCallKitDataSorceManager sharedManager] extensionIdentifier:ExtensionIdentifier ApplicationGroupIdentifier:AppGroupIdentifier dataSroceFileName:FileName];
     }
 
     return YES;
