@@ -38,7 +38,7 @@
     return _manager;
 }
 
-- (void)extensionIdentifier:(NSString *)externsionIdentifier ApplicationGroupIdentifier:(NSString *)groupIdentifier dataSroceFileName:(NSString *)dataSroceFileName {
+- (void)extensionIdentifier:(NSString *)externsionIdentifier groupIdentifier:(NSString *)groupIdentifier dataSroceFileName:(NSString *)dataSroceFileName {
     self.externsionIdentifier = externsionIdentifier;
     self.groupIdentifier = groupIdentifier;
     self.dataSroceFileName = dataSroceFileName;
@@ -46,9 +46,7 @@
 
 - (void)getEnableStatus:(void (^)(CXCallDirectoryEnabledStatus enabledStatus, NSError * error))completion {
     CXCallDirectoryManager *manager = [CXCallDirectoryManager sharedInstance];
-    [manager
-     getEnabledStatusForExtensionWithIdentifier:self.externsionIdentifier
-     completionHandler:^(CXCallDirectoryEnabledStatus enabledStatus, NSError * _Nullable error) {
+    [manager getEnabledStatusForExtensionWithIdentifier:self.externsionIdentifier completionHandler:^(CXCallDirectoryEnabledStatus enabledStatus, NSError * _Nullable error) {
          dispatch_async(dispatch_get_main_queue(), ^{
              if (completion) {
                  completion(enabledStatus, error);
@@ -57,40 +55,40 @@
      }];
 }
 
-- (BOOL)addPhoneNumber:(NSString *)phoneNumber name:(NSString *)name {
+- (void)addPhoneNumber:(NSString *)phoneNumber name:(NSString *)name completion:(nullable void (^)(NSError * _Nullable error))completion {
     if (!phoneNumber || ![phoneNumber isKindOfClass:[NSString class]] ||
         !name || ![name isKindOfClass:[NSString class]] || name.length == 0) {
-        return NO;
+        completion([[NSError alloc] initWithDomain:@"数据错误" code:-1 userInfo:@{@"name":name,@"phoneNumber":phoneNumber}]);
     }
     
     NSString *handledPhoneNumber = [self handlePhoneNumber:phoneNumber];
     if (handledPhoneNumber) {
         if (self.dataList[handledPhoneNumber]) { // 已经设置过这个phoneNumber
-            return NO;
+            return;
         }
     } else {
         handledPhoneNumber = [self handleTelePhoneNumber:phoneNumber];
         if (handledPhoneNumber) {
             if (self.dataList[handledPhoneNumber]) { // 已经设置过这个phoneNumber
-                return NO;
+                return;
             }
         } else {
-            return NO;
+            completion([[NSError alloc] initWithDomain:@"号码错误" code:-2 userInfo:@{@"name":name,@"phoneNumber":phoneNumber}]);
         }
     }
     
     [self.dataList setObject:name forKey:handledPhoneNumber];
-    return YES;
 }
 
-- (void)reload:(void (^)(NSError * _Nullable error, NSString * filePath))completion {
+- (void)reload:(void (^)(NSError * _Nullable error))completion {
     if (self.dataList.count == 0) {
-        completion([[NSError alloc] initWithDomain:@"The data source is empty, please contact the service." code:-1 userInfo:nil], nil);
+        completion([[NSError alloc] initWithDomain:@"The data source is empty, please contact the service." code:-1 userInfo:nil]);
     }
-    
-    NSString * filePath = [self writeDataToAppGroupFile:^(NSError * _Nullable error) {
+    [self writeDataToAppGroupFile:^(NSError * _Nullable error, NSString *path) {
         if (error) {
-            completion(error, nil);
+            completion(error);
+        } else {
+            NSLog(@"CallKit Data Source Path:\n %@",path);
         }
     }];
     
@@ -99,11 +97,8 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (completion) {
                 if (error.code != 0) {
-                    completion(error, nil);
-                } else {
-                    completion(nil, filePath);
-                }
-            }
+                    completion(error);
+                }            }
         });
     }];
 }
@@ -157,8 +152,6 @@
  对dataList中的记录进行升序排序，然后转换为string
  */
 - (NSString *)dataToString {
-    //    NSMutableArray *phoneArray = [NSMutableArray arrayWithArray:[self.dataList allKeys]];
-    
     NSMutableArray *phoneArray = [NSMutableArray array];
     for (NSString * key in self.dataList) {
         NSNumber * num = [NSNumber numberWithInteger:[key integerValue]];
@@ -167,53 +160,48 @@
     [phoneArray sortUsingSelector:@selector(compare:)];
     
     NSMutableString *dataStr = [[NSMutableString alloc] init];
-    
     for (NSNumber *phone in phoneArray) {
         NSString *label = self.dataList[phone.stringValue];
         NSString *dicStr = [NSString stringWithFormat:@"{\"%@\":\"%@\"}\n", phone, label];
         [dataStr appendString:dicStr];
     }
-    
     return [dataStr copy];
 }
 
 /**
  将数据写入APP Group指定文件中
  */
-- (NSString *)writeDataToAppGroupFile:(void (^)(NSError * _Nullable error))completion {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:self.groupIdentifier];
-    if (containerURL == nil) {
-        completion([[NSError alloc] initWithDomain:@"Container link is empty, Please check if the project configuration file is consistent with the APP group id." code:-1000 userInfo:nil]);
-        return nil;
-    }
-    
-    containerURL = [containerURL URLByAppendingPathComponent:self.dataSroceFileName];
-    NSString * filePath = containerURL.path;
-    if (!filePath || ![filePath isKindOfClass:[NSString class]]) {
-        completion([[NSError alloc] initWithDomain:@"File path initialization failed" code:-1001 userInfo:nil]);
-        return nil;
-    }
-    
-    if ([fileManager fileExistsAtPath:filePath]) {
-        [fileManager removeItemAtPath:filePath error:nil];
-    }
-    
-    if (![fileManager createFileAtPath:filePath contents:nil attributes:nil]) {
-        completion([[NSError alloc] initWithDomain:@"Failed to create file" code:-1001 userInfo:nil]);
-        return nil;
-    }
-    
-    BOOL result = [[self dataToString] writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    [self clearPhoneNumber];
-    if (!result) {
-        completion([[NSError alloc] initWithDomain:@"Data entry file failed" code:-1002 userInfo:nil]);
-        return nil;
-    } else {
-        completion(nil);
-    }
-    
-    return filePath;
+- (void)writeDataToAppGroupFile:(void (^)(NSError * _Nullable error, NSString *path))completion {
+
+    dispatch_sync(dispatch_queue_create([[NSString stringWithFormat:@"callkit.%@", self] UTF8String], NULL), ^{
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:self.groupIdentifier];
+        if (containerURL == nil) {
+            completion([[NSError alloc] initWithDomain:@"Container link is empty, Please check if the project configuration file is consistent with the APP group id." code:-1000 userInfo:nil], nil);
+        }
+        
+        containerURL = [containerURL URLByAppendingPathComponent:self.dataSroceFileName];
+        NSString * filePath = containerURL.path;
+        if (!filePath || ![filePath isKindOfClass:[NSString class]]) {
+            completion([[NSError alloc] initWithDomain:@"File path initialization failed" code:-1001 userInfo:nil], nil);
+        }
+        
+        if ([fileManager fileExistsAtPath:filePath]) {
+            [fileManager removeItemAtPath:filePath error:nil];
+        }
+        
+        if (![fileManager createFileAtPath:filePath contents:nil attributes:nil]) {
+            completion([[NSError alloc] initWithDomain:@"Failed to create file" code:-1001 userInfo:nil], nil);
+        }
+        
+        BOOL result = [[self dataToString] writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        [self clearPhoneNumber];
+        if (!result) {
+            completion([[NSError alloc] initWithDomain:@"Data entry file failed" code:-1002 userInfo:nil], nil);
+        } else {
+            completion(nil, filePath);
+        }
+    });
 }
 
 #pragma mark -Getter
@@ -245,7 +233,6 @@
         NSString * telephoneCodeRegex = @"^[0][1-9]\\d{1,2}\\d{7,8}$";
         _telephoneNumeberWithoutCodePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", telephoneCodeRegex];
     }
-    
     return _telephoneNumeberWithoutCodePredicate;
 }
 

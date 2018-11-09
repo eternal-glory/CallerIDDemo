@@ -14,12 +14,15 @@ API_AVAILABLE(ios(10.0))
 + (instancetype)sharedManager;
 
 /**
- 初始化 Extersion ID和APP Group ID
+ 初始化 Extersion ID, APP Group ID 文件名
 
- @param externsionIdentifier extersion ID
- @param groupIdentifier APP Group ID
+ @param externsionIdentifier extersion bundle ID
+ @param groupIdentifier APP Groups ID
+ @param dataSroceFileName 文件名
  */
-- (void)extensionIdentifier:(NSString *)externsionIdentifier ApplicationGroupIdentifier:(NSString *)groupIdentifier dataSroceFileName:(NSString *)dataSroceFileName;
+- (void)extensionIdentifier:(NSString *)externsionIdentifier
+            groupIdentifier:(NSString *)groupIdentifier
+          dataSroceFileName:(NSString *)dataSroceFileName;
 
 /**
  获取Call Direcory是否可用
@@ -46,9 +49,8 @@ API_AVAILABLE(ios(10.0))
  
  @param phoneNumber 手机号码
  @param name 标识
- @return 是否成功
  */
-- (BOOL)addPhoneNumber:(NSString *)phoneNumber name:(NSString *)name;
+- (void)addPhoneNumber:(NSString *)phoneNumber name:(NSString *)name completion:(nullable void (^)(NSError * _Nullable error))completion;
 
 /**
  清除之前添加的数据
@@ -62,6 +64,6 @@ API_AVAILABLE(ios(10.0))
 
  @param completion 返回错误或成功后路径
  */
-- (void)reload:(nullable void (^)(NSError * _Nullable error, NSString * filePath))completion;
+- (void)reload:(nullable void (^)(NSError * _Nullable error))completion;
 
 @end

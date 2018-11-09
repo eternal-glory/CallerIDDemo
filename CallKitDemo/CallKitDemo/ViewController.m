@@ -44,11 +44,13 @@
         for (Model * model in self.dataSource) {
             // 循环遍历数据进行号码添加
             // 目前只对中国大陆号码做正则,如果有发烧友对国际编写有思想课修改内部私有接口正则修改
-            [[JRCallKitDataSorceManager sharedManager] addPhoneNumber:model.number name:model.name];
+            [[JRCallKitDataSorceManager sharedManager] addPhoneNumber:model.number name:model.name completion:^(NSError * _Nullable error) {
+                
+            }];
         }
         
         // 写入到库中, 接口返回值 yes 成功 no失败.回调block做验证,如果error有值 那么呼叫功能可能不存在
-        [[JRCallKitDataSorceManager sharedManager] reload:^(NSError * _Nullable error, NSString *filePath) {
+        [[JRCallKitDataSorceManager sharedManager] reload:^(NSError * _Nullable error) {
             
             NSString * message = nil;
             if (error) {

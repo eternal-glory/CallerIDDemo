@@ -21,7 +21,7 @@
     
     if (@available(iOS 10.0, *)) {
         // 初始化Extersion ID和APP Group ID
-        [[JRCallKitDataSorceManager sharedManager] extensionIdentifier:ExtensionIdentifier ApplicationGroupIdentifier:AppGroupIdentifier dataSroceFileName:FileName];
+        [[JRCallKitDataSorceManager sharedManager] extensionIdentifier:ExtensionIdentifier  groupIdentifier:AppGroupIdentifier dataSroceFileName:FileName];
     }
 
     return YES;
