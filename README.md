@@ -5,19 +5,26 @@ iOS10.0版本后,苹果公司推出callkit框架来支持VoIP功能.这里我们
 
 >工程创建
 
-###1 对工程创建call extension功能 target
+### 1 对工程创建call extension功能 target
+
 ![创建target.png](https://upload-images.jianshu.io/upload_images/2183931-b156aad34dfdb4c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-###2 选中iOS下Call Directory Extension
+
+### 2 选中iOS下Call Directory Extension
+
 ![Call Directory Extension.png](https://upload-images.jianshu.io/upload_images/2183931-17a4df78cece5b28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-###3 编写extension工程名(callExtension的bundle id)
+
+### 3 编写extension工程名(callExtension的bundle id)
+
 ![Product.png](https://upload-images.jianshu.io/upload_images/2183931-38adc78338ff912a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-###4 配置工程App Group功能
+
+### 4 配置工程App Group功能
+
 ![callExtension.png](https://upload-images.jianshu.io/upload_images/2183931-c98a5a2e3d8c1d21.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![product.png](https://upload-images.jianshu.io/upload_images/2183931-ed7bb12b695ed328.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 工程配置环境准备完毕!
 
-###功能开发
+### 功能开发
 
 >[Demo](https://github.com/eternal-glory/CallerIDDemo)中工具类JRCallKitFileManager
 这个是对CXCallDirectoryManager类对象的封装
@@ -59,7 +66,9 @@ iOS10.0版本后,苹果公司推出callkit框架来支持VoIP功能.这里我们
                   name:(NSString *)name
             completion:(nullable void (^)(NSError * _Nullable error))completion;
 ```
+
 > 写入系统中
+
 ```
 /**
  先调用addPhoneNumber:label:把需要写入的记录添加
@@ -69,7 +78,9 @@ iOS10.0版本后,苹果公司推出callkit框架来支持VoIP功能.这里我们
  */
 - (void)reload:(nullable void (^)(NSError * _Nullable error))completion;
 ```
+
 > 检验是否可用及权限
+
 ```
 /**
  获取Call Direcory是否可用
@@ -82,6 +93,7 @@ iOS10.0版本后,苹果公司推出callkit框架来支持VoIP功能.这里我们
 ```
 
 ### 工具使用
+
 将Demo中CallKitFileManager文件夹引导到工程内
 APPDelegate中引用JRCallKitDataSorceManager.h
 根据Extersion ID和APP Group ID来初始化CMPCallDirectoryManager
@@ -135,6 +147,7 @@ if (@available(iOS 10.0, *)) {
 ```
 
 信息资源录入地方
+
 ```
 - (IBAction)updateDataSource:(id)sender {
     if (@available(iOS 10, *)) {
@@ -165,7 +178,8 @@ if (@available(iOS 10.0, *)) {
 }
 ```
 
-###CallExtension工程文件配置
+### CallExtension工程文件配置
+
 CallDirectoryHandler.m文件中添加下列代码
 ```
 - (BOOL)addIdentificationPhoneNumbersToContext:(CXCallDirectoryExtensionContext *)context {
@@ -218,10 +232,11 @@ if (![self addIdentificationPhoneNumbersToContext:context]) {
 
 工程编写完成.
 
-###手机功能权限开启
+### 手机功能权限开启
+
 ![设置.png](https://upload-images.jianshu.io/upload_images/2183931-1392fe4e2bcb4eae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ![来电阻止与身份识别.png](https://upload-images.jianshu.io/upload_images/2183931-15a54c2e511e24b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-打开你的工程权限就可以l
+打开你的工程权限就可以了
 
