@@ -50,7 +50,9 @@ API_AVAILABLE(ios(10.0))
  @param phoneNumber 手机号码
  @param name 标识
  */
-- (void)addPhoneNumber:(NSString *)phoneNumber name:(NSString *)name completion:(nullable void (^)(NSError * _Nullable error))completion;
+- (void)addPhoneNumber:(NSString *)phoneNumber
+                  name:(NSString *)name
+            completion:(nullable void (^)(NSError * _Nullable error))completion;
 
 /**
  清除之前添加的数据

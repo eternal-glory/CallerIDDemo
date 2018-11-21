@@ -98,7 +98,8 @@
             if (completion) {
                 if (error.code != 0) {
                     completion(error);
-                }            }
+                }
+            }
         });
     }];
 }
